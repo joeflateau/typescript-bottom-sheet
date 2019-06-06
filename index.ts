@@ -1,12 +1,6 @@
 // Import stylesheets
 import './style.scss';
 
-const _open = document.querySelector(".open") as HTMLElement;
-const _sheet = document.querySelector(".sheet") as HTMLElement;
-const _backdrop = document.querySelector(".sheet-backdrop") as HTMLElement;
-const _container = document.querySelector(".sheet-container") as HTMLElement;
-const _cancel = document.querySelector(".sheet-cancel") as HTMLElement;
-
 class SwipeDownAwayGesture {
   private backdropGestureListener: () => void;
   private touchStartListener: () => void;
@@ -15,6 +9,7 @@ class SwipeDownAwayGesture {
   constructor(
     private container: HTMLElement,
     private sheet: HTMLElement,
+    private sheetContent: HTMLElement,
     private backdrop: HTMLElement,
     private stops?: number[]
   ) {
@@ -145,6 +140,7 @@ class SwipeDownAwayGesture {
   }
 
   open() {
+    this.sheetContent.scrollTo(0, 0);
     const stop = this.stops != null ? this.stops[0] : 0;
     this.transitionTo(stop);
   }
@@ -284,7 +280,15 @@ function log(message: string) {
   logWindow.innerHTML = message;
 }
 
-const gesture = new SwipeDownAwayGesture(_container, _sheet, _backdrop, [270]);
+
+const _open = document.querySelector(".open") as HTMLElement;
+const _sheet = document.querySelector(".sheet") as HTMLElement;
+const _sheet_content = document.querySelector(".sheet-content") as HTMLElement;
+const _backdrop = document.querySelector(".sheet-backdrop") as HTMLElement;
+const _container = document.querySelector(".sheet-container") as HTMLElement;
+const _cancel = document.querySelector(".sheet-cancel") as HTMLElement;
+
+const gesture = new SwipeDownAwayGesture(_container, _sheet, _sheet_content,_backdrop, [270]);
 
 gesture.open();
 
