@@ -95,26 +95,30 @@ body {
     align-items: stretch;
   }
 
+  .sheet-horizontal-scroll {
+    overflow-x:auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
   .sheet-icon-row {
     display:flex;
     flex-flow:row nowrap;
-    justify-content: space-between;
-    margin:0 40px;
+    margin:0 10px;
 
     > i {
-      width:40px;
-      height:40px;
+      width:44px;
+      height:44px;
+      flex: 0 0 44px;
       background:gray;
       margin:10px;
     }
 
     &.bigger { 
-      margin:0 20px;
-      
       > i {
-      width:60px;
-      height:60px;
-    }
+        width:60px;
+        height:60px;
+        flex-basis:60px;
+      }
     }
   }
 

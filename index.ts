@@ -27,16 +27,21 @@ class SwipeDownAwayGesture {
 
     this.touchStartListener = touchGestureListener(sheet, ({ ev: startEv, move, end, cancel }) => {
 
-      const startTouch = { time: Date.now(), y: getEventY(startEv) };
+      const startTouch = { time: Date.now(), y: getEventY(startEv), x: getEventX(startEv) };
       let lastTouch = { time: Date.now(), y: getEventY(startEv) };
       let secondLastTouch: { time: number, y: number } = null;
+      let axis: "vertical" | "horizontal" = null;
 
       const sheetClientHeight = sheet.clientHeight;
 
       move((moveEv: GestureEvent) => {
-        const thisTouch = { time: Date.now(), y: getEventY(moveEv) };
+        const thisTouch = { time: Date.now(), y: getEventY(moveEv), x: getEventX(moveEv) };
 
         const direction = thisTouch.y > startTouch.y ? "down" : "up";
+        axis = axis ||
+          Math.abs(thisTouch.y - startTouch.y) > Math.abs(thisTouch.x - startTouch.x) ?
+          "vertical" :
+          "horizontal";
 
         const shouldAllowScroll = Array.from(itemAndParents(startEv.target as HTMLElement))
           .filter(el => el === sheet || isDescendantOf(el, sheet))
@@ -67,7 +72,8 @@ class SwipeDownAwayGesture {
             return false;
           })
 
-        if (shouldAllowScroll && this.translated === 0) {
+
+        if ((shouldAllowScroll && this.translated === 0) || axis === "horizontal") {
           cancel();
           return;
         }
@@ -128,7 +134,7 @@ class SwipeDownAwayGesture {
     if (y < 0) {
       // trying to drag higher than it can go, should resist
       this.sheet.style.transform = `translate(-50%,0px)`;
-      this.sheet.style.paddingBottom = `${(-y)/2}px`;
+      this.sheet.style.paddingBottom = `${(-y) / 2}px`;
     } else {
       // this is fine
       this.sheet.style.transform = `translate(-50%,${y}px)`;
@@ -225,6 +231,9 @@ function touchGestureListener(el: EventTarget, start: (start: {
 
 function getEventY(ev: GestureEvent) {
   return 'touches' in ev ? ev.touches[0].clientY : ev.clientY;
+}
+function getEventX(ev: GestureEvent) {
+  return 'touches' in ev ? ev.touches[0].clientX : ev.clientX;
 }
 
 let supportsPassive = getSupportsPassive();
