@@ -14,3 +14,11 @@ export function isDescendantOf(el: HTMLElement, parentCandidate: HTMLElement) {
   } while (el.parentElement);
   return false;
 }
+
+export function el(name: string, props: Record<string, string>) {
+  const el = document.createElement(name);
+  for (let [prop, value] of Object.entries(props)) {
+    el.setAttribute(prop, value);
+  }
+  return el;
+}

@@ -4,20 +4,35 @@ import {
   getEventY,
   getEventX
 } from "./touch-gesture-listener";
-import { itemAndParents, isDescendantOf } from "./dom";
+import { itemAndParents, isDescendantOf, el } from "./dom";
 
 export class SwipeAwaySheet {
   private backdropGestureListener: () => void;
   private touchStartListener: () => void;
   private translated = 0;
+  backdrop: HTMLElement;
+  sheetContent: HTMLElement;
+  container: HTMLElement;
 
   constructor(
-    private container: HTMLElement,
     private sheet: HTMLElement,
-    private sheetContent: HTMLElement,
-    private backdrop: HTMLElement,
-    private stops?: number[]
+    private options: {
+      attachTo?: HTMLElement;
+      stops: number[];
+    }
   ) {
+    const backdrop = (this.backdrop = el("div", {
+      className: "sheet-backdrop"
+    }));
+
+    this.sheetContent = sheet.querySelector(".sheet-content");
+
+    this.container = el("div", { className: "sheet-container" });
+
+    this.container.appendChild(backdrop);
+    this.container.appendChild(sheet);
+    (options.attachTo || document.body).appendChild(this.container);
+
     this.backdropGestureListener = touchGestureListener(backdrop, ({ tap }) => {
       tap(() => {
         this.close();
@@ -133,7 +148,7 @@ export class SwipeAwaySheet {
     if (Math.abs(velocity) < 0.15) {
       velocity = 0;
     }
-    const stops = [this.sheet.clientHeight, ...(this.stops || [])];
+    const stops = [this.sheet.clientHeight, ...(this.options.stops || [])];
 
     const stopsByDistanceFromY = stops.sort(
       (a, b) => Math.abs(a - y) - Math.abs(b - y)
@@ -170,7 +185,7 @@ export class SwipeAwaySheet {
 
   open() {
     this.sheetContent.scrollTo(0, 0);
-    const stop = this.stops != null ? this.stops[0] : 0;
+    const stop = this.options.stops != null ? this.options.stops[0] : 0;
     this.transitionTo(stop);
   }
 

@@ -12,18 +12,13 @@ function log(message: string) {
 
 const _open = document.querySelector(".open") as HTMLElement;
 const _sheet = document.querySelector(".sheet") as HTMLElement;
-const _sheet_content = document.querySelector(".sheet-content") as HTMLElement;
-const _backdrop = document.querySelector(".sheet-backdrop") as HTMLElement;
-const _container = document.querySelector(".sheet-container") as HTMLElement;
 const _cancel = document.querySelector(".sheet-cancel") as HTMLElement;
+const viewport = document.getElementById("viewport");
 
-const gesture = new SwipeAwaySheet(
-  _container,
-  _sheet,
-  _sheet_content,
-  _backdrop,
-  [270]
-);
+const gesture = new SwipeAwaySheet(_sheet, {
+  attachTo: viewport,
+  stops: [270]
+});
 
 gesture.open();
 
