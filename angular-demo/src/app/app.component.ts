@@ -3,17 +3,7 @@ import { BottomSheetProvider } from "../../../angular";
 
 @Component({
   selector: "app-root",
-  template: `
-    <button type="button" (click)="openSheet(sheetTemplate)">Open</button>
-    <ng-template #sheetTemplate>
-      <div>foo</div>
-      <div>foo</div>
-      <div>foo</div>
-      <div>foo</div>
-      <div>foo</div>
-      <div>foo</div>
-    </ng-template>
-  `,
+  templateUrl: "app.html",
   styles: []
 })
 export class AppComponent {
@@ -24,7 +14,11 @@ export class AppComponent {
     bottomSheet.rootVcRef = vcRef;
   }
 
-  openSheet<T>(template: TemplateRef<T>) {
-    this.bottomSheet.create(template);
+  async openSheet<T>(template: TemplateRef<T>) {
+    const value = await this.bottomSheet.show(template, {
+      title: "Sheet Title",
+      stops: [270]
+    });
+    console.log({ value });
   }
 }

@@ -1,0 +1,71 @@
+<button type="button" (click)="openSheet(sheetTemplate)">Open</button>
+
+<ng-template #sheetTemplate let-context>
+  <div class="sheet-horizontal-scroll">
+    <div class="sheet-icon-row">
+      <i></i>
+      <i></i>
+      <i></i>
+      <i></i>
+      <i></i>
+      <i></i>
+      <i></i>
+      <i></i>
+    </div>
+  </div>
+  <div class="sheet-horizontal-scroll">
+    <div class="sheet-icon-row bigger">
+      <i></i>
+      <i></i>
+      <i></i>
+      <i></i>
+      <i></i>
+      <i></i>
+    </div>
+  </div>
+  <ul class="sheet-list">
+    <li class="sheet-list-item" (click)="context.dismiss('number1')">
+      Number 1
+    </li>
+    <li class="sheet-list-item">
+      <div class="nested-scroll">
+        <div class="item">Nested Scroll</div>
+        <div class="item">Nested Scroll</div>
+        <div class="item">Nested Scroll</div>
+        <div class="item">Nested Scroll</div>
+        <div class="item">Nested Scroll</div>
+        <div class="item">Nested Scroll</div>
+        <div class="item">Nested Scroll</div>
+        <div class="item">Nested Scroll</div>
+        <div class="item">Nested Scroll</div>
+        <div class="item">Nested Scroll</div>
+      </div>
+    </li>
+    <li class="sheet-list-item">Foo</li>
+    <li class="sheet-list-item">Foo</li>
+    <li class="sheet-list-item">Foo</li>
+    <li class="sheet-list-item">Foo</li>
+    <li class="sheet-list-item">Foo</li>
+    <li class="sheet-list-item">Foo</li>
+    <li class="sheet-list-item">Foo</li>
+    <li class="sheet-list-item">Foo</li>
+    <li class="sheet-list-item">Foo</li>
+    <li class="sheet-list-item">Foo</li>
+    <li class="sheet-list-item">Foo</li>
+    <li class="sheet-list-item">Foo</li>
+    <li class="sheet-list-item">Foo</li>
+    <li class="sheet-list-item">Foo</li>
+    <li class="sheet-list-item">Foo</li>
+    <li class="sheet-list-item">Foo</li>
+    <li class="sheet-list-item">Foo</li>
+    <li class="sheet-list-item">Foo</li>
+    <li class="sheet-list-item">Foo</li>
+    <li class="sheet-list-item">Foo</li>
+    <li class="sheet-list-item">Foo</li>
+    <li class="sheet-list-item">Foo</li>
+  </ul>
+
+  <ng-container *sheetFooter>
+    <button type="button" class="sheet-button sheet-cancel">Button</button>
+  </ng-container>
+</ng-template>

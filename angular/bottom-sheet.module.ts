@@ -3,10 +3,15 @@ import { BrowserModule } from "@angular/platform-browser";
 import {
   BottomSheetComponent,
   SheetFooterDirective,
-  BottomSheetProvider
+  BottomSheetProvider,
+  SheetDismissDirective
 } from "./bottom-sheet.component";
 
-const declarations = [SheetFooterDirective, BottomSheetComponent];
+const declarations = [
+  SheetFooterDirective,
+  BottomSheetComponent,
+  SheetDismissDirective
+];
 const providers = [BottomSheetProvider];
 
 @NgModule({

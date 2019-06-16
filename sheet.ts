@@ -19,6 +19,7 @@ export class SwipeAwaySheet {
     private options: {
       attachTo?: HTMLElement;
       stops: number[];
+      onClose: (value: any) => void;
     }
   ) {
     const backdrop = (this.backdrop = el("div", {
@@ -201,7 +202,7 @@ export class SwipeAwaySheet {
     this.container.style.pointerEvents = "auto";
   }
 
-  close(time: number = 350) {
+  close(time: number = 350, value?: any) {
     time = Math.min(time, 350);
     this.sheet.style.transition = `${time *
       0.6}ms cubic-bezier(0.35, 0.15, 0.85, .6) all`;
@@ -209,6 +210,7 @@ export class SwipeAwaySheet {
       0.6}ms cubic-bezier(0.35, 0.15, 0.85, .6) opacity`;
     this.translateSheet(this.sheet.clientHeight);
     this.container.style.pointerEvents = "none";
+    this.options.onClose(value);
   }
 
   destroy() {
