@@ -26,12 +26,10 @@ export class SwipeAwaySheet {
     }));
 
     this.sheetContent = sheet.querySelector(".sheet-content");
-
     this.container = el("div", { className: "sheet-container" });
-
     this.container.appendChild(backdrop);
+    this.sheet.parentElement.insertBefore(this.container, this.sheet);
     this.container.appendChild(sheet);
-    (options.attachTo || document.body).appendChild(this.container);
 
     this.backdropGestureListener = touchGestureListener(backdrop, ({ tap }) => {
       tap(() => {

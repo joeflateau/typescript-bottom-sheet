@@ -1,11 +1,27 @@
 {
-  "name": "typescript",
+  "name": "bottom-sheet",
   "version": "0.0.0",
   "private": true,
   "dependencies": {},
   "devDependencies": {
-    "@angular/common": "^8.0.1",
-    "@angular/core": "^8.0.1",
-    "@angular/language-service": "^8.0.1"
-  }
+    "@angular/common": "~7.1.0",
+    "@angular/core": "~7.1.0",
+    "@angular/language-service": "~7.1.0",
+    "@angular/platform-browser": "^7.1.4"
+  },
+  "description": "[Edit on StackBlitz ⚡️](https://stackblitz.com/edit/typescript-bottom-sheet)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/joeflateau/typescript-bottom-sheet.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joeflateau/typescript-bottom-sheet/issues"
+  },
+  "homepage": "https://github.com/joeflateau/typescript-bottom-sheet#readme"
 }
