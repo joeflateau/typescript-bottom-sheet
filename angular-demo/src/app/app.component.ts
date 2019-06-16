@@ -21,4 +21,8 @@ export class AppComponent {
     });
     console.log({ value });
   }
+
+  print(message: string) {
+    console.log({ message });
+  }
 }
