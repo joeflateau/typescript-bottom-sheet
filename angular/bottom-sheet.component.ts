@@ -62,6 +62,8 @@ export class BottomSheetComponent implements AfterViewInit {
     });
     this.swipeAwaySheet.open();
   }
+  
+  // TODO setValue(value: any)
 
   close(value: any) {
     this.swipeAwaySheet.close(undefined, value);
