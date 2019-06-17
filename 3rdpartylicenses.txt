@@ -266,7 +266,7 @@ Apache-2.0
 @angular/core
 MIT
 
-bottom-sheet
+swipe-bottom-sheet
 ISC
 
 @angular/common
