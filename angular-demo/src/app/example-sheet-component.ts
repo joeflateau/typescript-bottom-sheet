@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { BottomSheetContext } from "../../../angular/bottom-sheet.provider";
+
 @Component({
   selector: "app-example-component",
   template: `

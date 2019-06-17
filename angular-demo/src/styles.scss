@@ -41,9 +41,19 @@ body {
   background: #67b44f;
   color: #2e2e2e;
   border: 1px solid #2a4d20;
-  padding: 16px 16px;
+  padding: 1rem 1rem;
   width: 100%;
   font-size: 2rem;
+}
+
+.github {
+  display: block;
+  color: #dadada;
+  padding: 1rem 1rem;
+  width: 100%;
+  font-size: 1rem;
+  text-align: center;
+  margin-top: 3em;
 }
 
 .output {

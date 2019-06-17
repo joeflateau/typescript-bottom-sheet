@@ -1,7 +1,6 @@
 {
-  "name": "bottom-sheet",
+  "name": "swipe-bottom-sheet",
   "version": "0.0.0",
-  "private": true,
   "dependencies": {},
   "devDependencies": {
     "@angular/common": "~7.1.0",
