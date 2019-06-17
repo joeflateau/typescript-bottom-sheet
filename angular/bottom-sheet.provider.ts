@@ -33,22 +33,16 @@ export class BottomSheetProvider {
     }
   ): Promise<any> {
     if (this.rootVcRef == null) {
-      throw new Error("rootVcRef is null, this should be set by app.component");
+      throw new Error(
+        "rootVcRef is null, this should be set before calling show"
+      );
     }
     const factory = this.resolver.resolveComponentFactory(BottomSheetComponent);
     const context = new BottomSheetContext();
     const instanceRef = this.rootVcRef.createComponent(
       factory,
       undefined,
-      Injector.create({
-        providers: [
-          {
-            provide: BottomSheetContext,
-            useValue: context
-          }
-        ],
-        parent: this.injector
-      }),
+      undefined,
       this.resolveContent(templateRef, context)
     );
 
@@ -79,7 +73,12 @@ export class BottomSheetProvider {
       ];
     }
     const factory = this.resolver.resolveComponentFactory(content);
-    const componentRef = factory.create(this.injector);
+    const componentRef = factory.create(
+      Injector.create({
+        providers: [{ provide: BottomSheetContext, useValue: context }],
+        parent: this.injector
+      })
+    );
     return [[componentRef.location.nativeElement]];
   }
 }

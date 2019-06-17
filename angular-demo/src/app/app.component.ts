@@ -1,5 +1,6 @@
-import { Component, TemplateRef, ViewContainerRef } from "@angular/core";
-import { BottomSheetProvider } from "../../../angular";
+import { Component, ViewContainerRef } from "@angular/core";
+import { BottomSheetProvider, BottomSheetContent } from "../../../angular";
+import { ExampleComponent } from "./example-sheet-component";
 
 @Component({
   selector: "app-root",
@@ -7,6 +8,11 @@ import { BottomSheetProvider } from "../../../angular";
   styles: []
 })
 export class AppComponent {
+  lastValue: any;
+  lastMessage: string;
+
+  component = ExampleComponent;
+
   constructor(
     private bottomSheet: BottomSheetProvider,
     vcRef: ViewContainerRef
@@ -14,15 +20,17 @@ export class AppComponent {
     bottomSheet.rootVcRef = vcRef;
   }
 
-  async openSheet<T>(template: TemplateRef<T>) {
-    const value = await this.bottomSheet.show(template, {
+  async openSheet<T>(content: BottomSheetContent<T>) {
+    this.lastMessage = "";
+    this.lastValue = "";
+    const value = await this.bottomSheet.show(content, {
       title: "Sheet Title",
       stops: [270]
     });
-    console.log({ value });
+    this.lastValue = value;
   }
 
   print(message: string) {
-    console.log({ message });
+    this.lastMessage = message;
   }
 }

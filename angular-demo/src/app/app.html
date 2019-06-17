@@ -1,4 +1,23 @@
-<button type="button" (click)="openSheet(sheetTemplate)">Open</button>
+<button type="button" class="button" (click)="openSheet(sheetTemplate)">
+  Open Template
+</button>
+
+<button type="button" class="button" (click)="openSheet(component)">
+  Open Component
+</button>
+
+<div class="output">
+  <label>Value</label>
+  <output>
+    {{ lastValue }}
+  </output>
+</div>
+<div class="output">
+  <label>Log message</label>
+  <output>
+    {{ lastMessage }}
+  </output>
+</div>
 
 <ng-template #sheetTemplate let-context>
   <div class="sheet-horizontal-scroll">
@@ -26,21 +45,27 @@
   <ul class="sheet-list">
     <li
       class="sheet-list-item"
-      (click)="context.dismiss('dismissed with value')"
+      (click)="context.dismiss('dismissed with value from template')"
     >
       Dismiss with value
     </li>
-    <li
-      class="sheet-list-item"
-      (click)="context.dismiss(); print('dismissed without value')"
-    >
+    <li class="sheet-list-item" (click)="context.dismiss()">
       Dismiss without value
     </li>
     <li
       class="sheet-list-item"
-      (click)="context.setValue('setValue then dismiss'); context.dismiss()"
+      (click)="
+        context.setValue('setValue then dismiss from template');
+        context.dismiss()
+      "
     >
       setValue then dismiss
+    </li>
+    <li
+      class="sheet-list-item"
+      (click)="context.setValue('setValue wait for dismiss from template')"
+    >
+      setValue, don't dismiss (click backdrop to dismiss)
     </li>
     <li class="sheet-list-item">
       <div class="nested-scroll">

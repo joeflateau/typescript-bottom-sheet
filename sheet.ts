@@ -5,6 +5,7 @@ import {
   getEventX
 } from "./lib/touch-gesture-listener";
 import { itemAndParents, isDescendantOf, el } from "./lib/dom";
+import { listen } from "./lib/listen";
 
 export class SwipeAwaySheet {
   private backdropGestureListener: () => void;
@@ -118,7 +119,7 @@ export class SwipeAwaySheet {
           lastTouch = thisTouch;
         });
 
-        end((endEv: TouchEvent | MouseEvent) => {
+        end((endEv: GestureEvent) => {
           if (secondLastTouch == null) {
             return;
           }
@@ -216,7 +217,7 @@ export class SwipeAwaySheet {
     this.translateSheet(this.sheet.clientHeight);
     this.container.style.pointerEvents = "none";
 
-    this.sheet.addEventListener(transitionEndEvent, () => {
+    listen(this.sheet, [transitionEndEvent], () => {
       this.options.onClose(value === undefined ? this.value : value);
     });
   }
@@ -227,7 +228,7 @@ export class SwipeAwaySheet {
   }
 }
 
-const transitionEndEvent = (() => {
+const transitionEndEvent: string = (() => {
   var transitions = {
       transition: "transitionend",
       WebkitTransition: "webkitTransitionEnd",
