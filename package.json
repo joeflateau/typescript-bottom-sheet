@@ -21,10 +21,13 @@
     "*.scss",
     "*.d.ts",
     "*.js",
+    "*.map",
     "lib/*.d.ts",
     "lib/*.js",
+    "lib/*.map",
     "angular/*.d.ts",
-    "angular/*.js"
+    "angular/*.js",
+    "angular/*.map"
   ],
   "author": "",
   "license": "ISC",
