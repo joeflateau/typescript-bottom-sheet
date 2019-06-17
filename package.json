@@ -12,7 +12,7 @@
   "description": "[Edit on StackBlitz ⚡️](https://stackblitz.com/edit/typescript-bottom-sheet)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "deploy-demo": "(cd ./angular-demo; npm run ngh)"
   },
   "repository": {
     "type": "git",
