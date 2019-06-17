@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
-    "experimentalDecorators": true
-  }
+    "experimentalDecorators": true,
+    "declaration": true,
+    "lib": ["dom", "es2015"]
+  },
+  "exclude": ["node_modules", "angular-demo"]
 }
