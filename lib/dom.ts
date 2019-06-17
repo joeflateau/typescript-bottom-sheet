@@ -17,8 +17,8 @@ export function isDescendantOf(el: HTMLElement, parentCandidate: HTMLElement) {
 
 export function el(name: string, props: Record<string, string>) {
   const el = document.createElement(name);
-  for (let [prop, value] of Object.entries(props)) {
-    el[prop] = value;
+  for (let prop of Object.keys(props)) {
+    el[prop] = props[prop];
   }
   return el;
 }
