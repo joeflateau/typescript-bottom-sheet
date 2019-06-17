@@ -3,8 +3,8 @@ import {
   GestureEvent,
   getEventY,
   getEventX
-} from "./touch-gesture-listener";
-import { itemAndParents, isDescendantOf, el } from "./dom";
+} from "./lib/touch-gesture-listener";
+import { itemAndParents, isDescendantOf, el } from "./lib/dom";
 
 export class SwipeAwaySheet {
   private backdropGestureListener: () => void;
