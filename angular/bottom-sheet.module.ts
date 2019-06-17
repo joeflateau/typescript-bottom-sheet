@@ -1,11 +1,11 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import {
-  BottomSheetComponent,
   SheetFooterDirective,
-  BottomSheetProvider,
+  BottomSheetComponent,
   SheetDismissDirective
 } from "./bottom-sheet.component";
+import { BottomSheetProvider } from "./bottom-sheet.provider";
 
 const declarations = [
   SheetFooterDirective,
