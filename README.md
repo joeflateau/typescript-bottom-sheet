@@ -14,7 +14,7 @@
 ### Import the `BottomSheetModule` into your app module
 
 ```typescript
-import { BottomSheetModule } from "swipe-bottom-sheet";
+import { BottomSheetModule } from "swipe-bottom-sheet/angular";
 
 @NgModule({
   declarations: [AppComponent],
@@ -29,13 +29,13 @@ export class AppModule {}
 ### Import the module's scss
 
 ```scss
-@import "~swipe-bottom-sheet/styles.scss";
+@import "~swipe-bottom-sheet/style.scss";
 ```
 
 ### Inject the `BrowserSheetProvider` into your app component and set the bottomSheet's `rootVcRef` property
 
 ```typescript
-import { BottomSheetProvider } from "swipe-bottom-sheet";
+import { BottomSheetProvider } from "swipe-bottom-sheet/angular";
 
 @Component({
   selector: "app-root",
@@ -55,7 +55,7 @@ export class AppComponent {
 ### Open a bottom sheet using a TemplateRef
 
 ```typescript
-import { BottomSheetProvider } from "swipe-bottom-sheet";
+import { BottomSheetProvider } from "swipe-bottom-sheet/angular";
 
 @Component({
   selector: "app-component",
@@ -95,7 +95,7 @@ export class MyComponent {
 Have `BottomSheetContext` injected and use that to control the sheet
 
 ```typescript
-import { BottomSheetContext } from "swipe-bottom-sheet";
+import { BottomSheetContext } from "swipe-bottom-sheet/angular";
 
 @Component({
   selector: "app-example-component",
@@ -124,7 +124,7 @@ export class ExampleComponent {
 ```
 
 ```typescript
-import { BottomSheetProvider } from "swipe-bottom-sheet";
+import { BottomSheetProvider } from "swipe-bottom-sheet/angular";
 import { ExampleComponent } from "./example-sheet-component";
 
 @Component({

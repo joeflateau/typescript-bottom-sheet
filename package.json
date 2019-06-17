@@ -8,8 +8,8 @@
     "@angular/language-service": "~7.1.0",
     "@angular/platform-browser": "^7.1.4"
   },
-  "description": "[Edit on StackBlitz ⚡️](https://stackblitz.com/edit/typescript-bottom-sheet)",
-  "main": "index.js",
+  "description": "[Demo](https://joeflateau.github.io/typescript-bottom-sheet/)",
+  "main": "sheet.js",
   "scripts": {
     "deploy-demo": "(cd ./angular-demo; npm run ngh)"
   },
@@ -17,6 +17,15 @@
     "type": "git",
     "url": "git+ssh://git@github.com/joeflateau/typescript-bottom-sheet.git"
   },
+  "files": [
+    "*.scss",
+    "*.d.ts",
+    "*.js",
+    "lib/*.d.ts",
+    "lib/*.js",
+    "angular/*.d.ts",
+    "angular/*.js"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {
