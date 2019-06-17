@@ -13,8 +13,8 @@ export type BottomSheetContent<T> = TemplateRef<T> | Type<T>;
 
 @Injectable()
 export class BottomSheetContext {
-  public dismiss: (value: any) => void;
-  public setValue: (value: any) => void;
+  public dismiss: (value?: any) => void;
+  public setValue: (value?: any) => void;
   constructor() {}
 }
 

@@ -32,5 +32,5 @@ import { BottomSheetContext } from "../../../angular/bottom-sheet.provider";
   `
 })
 export class ExampleComponent {
-  constructor(protected context: BottomSheetContext) {}
+  constructor(public context: BottomSheetContext) {}
 }
