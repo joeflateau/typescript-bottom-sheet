@@ -14,6 +14,7 @@ export type BottomSheetContent<T> = TemplateRef<T> | Type<T>;
 @Injectable()
 export class BottomSheetContext {
   public dismiss: (value: any) => void;
+  public setValue: (value: any) => void;
   constructor() {}
 }
 
@@ -56,6 +57,7 @@ export class BottomSheetProvider {
     instance.stops = options.stops;
 
     context.dismiss = value => instance.close(value);
+    context.setValue = value => instance.setValue(value);
 
     return new Promise(resolve => {
       instance.onClose = value => {

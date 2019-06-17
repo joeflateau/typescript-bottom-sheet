@@ -24,11 +24,23 @@
     </div>
   </div>
   <ul class="sheet-list">
-    <li class="sheet-list-item" (click)="context.dismiss('number1')">
-      Number 1
+    <li
+      class="sheet-list-item"
+      (click)="context.dismiss('dismissed with value')"
+    >
+      Dismiss with value
     </li>
-    <li class="sheet-list-item" (click)="context.dismiss(); print('number2')">
-      Number 2
+    <li
+      class="sheet-list-item"
+      (click)="context.dismiss(); print('dismissed without value')"
+    >
+      Dismiss without value
+    </li>
+    <li
+      class="sheet-list-item"
+      (click)="context.setValue('setValue then dismiss'); context.dismiss()"
+    >
+      setValue then dismiss
     </li>
     <li class="sheet-list-item">
       <div class="nested-scroll">
