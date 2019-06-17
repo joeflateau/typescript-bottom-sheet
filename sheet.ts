@@ -13,6 +13,7 @@ export class SwipeAwaySheet {
   backdrop: HTMLElement;
   sheetContent: HTMLElement;
   container: HTMLElement;
+  value: any;
 
   constructor(
     private sheet: HTMLElement,
@@ -202,6 +203,10 @@ export class SwipeAwaySheet {
     this.container.style.pointerEvents = "auto";
   }
 
+  setValue(value: any) {
+    this.value = value;
+  }
+
   close(time: number = 350, value?: any) {
     time = Math.min(time, 350);
     this.sheet.style.transition = `${time *
@@ -210,7 +215,10 @@ export class SwipeAwaySheet {
       0.6}ms cubic-bezier(0.35, 0.15, 0.85, .6) opacity`;
     this.translateSheet(this.sheet.clientHeight);
     this.container.style.pointerEvents = "none";
-    this.options.onClose(value);
+
+    this.sheet.addEventListener(transitionEndEvent, () => {
+      this.options.onClose(value === undefined ? this.value : value);
+    });
   }
 
   destroy() {
@@ -218,3 +226,19 @@ export class SwipeAwaySheet {
     this.backdropGestureListener();
   }
 }
+
+const transitionEndEvent = (() => {
+  var transitions = {
+      transition: "transitionend",
+      WebkitTransition: "webkitTransitionEnd",
+      MozTransition: "transitionend",
+      OTransition: "otransitionend"
+    },
+    elem = document.createElement("div");
+
+  for (var t in transitions) {
+    if (typeof elem.style[t] !== "undefined") {
+      return transitions[t];
+    }
+  }
+})();
