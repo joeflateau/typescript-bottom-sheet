@@ -1,2 +1,52 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../../style.scss";
+
+$lightCheck: rgb(80, 80, 80);
+$darkCheck: #2e2e2e;
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: Lato;
+  background-color: $lightCheck;
+  background-image: linear-gradient(45deg, $darkCheck 25%, transparent 25%),
+    linear-gradient(-45deg, $darkCheck 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, $darkCheck 75%),
+    linear-gradient(-45deg, transparent 75%, $darkCheck 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+  height: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.output {
+  color: white;
+}
+
+.nested-scroll {
+  height: 50px;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
