@@ -186,7 +186,7 @@ export class SwipeAwaySheet {
 
   open() {
     this.sheetContent.scrollTo(0, 0);
-    const stop = this.options.stops != null ? this.options.stops[0] : 0;
+    const stop = (this.options.stops && this.options.stops[0]) || 0;
     this.transitionTo(stop);
   }
 
