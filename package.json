@@ -17,14 +17,14 @@
   "main": "sheet.js",
   "scripts": {
     "deploy-demo": "(cd ./angular-demo; npm run ngh)",
-    "build": "rm {.,angular,lib}/*.{d.ts,js,map}; ngc"
+    "build": "rm {.,angular,lib}/*.{d.ts,js,map,metadata.json,ngsummary.json}; ngc"
   },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/joeflateau/typescript-bottom-sheet.git"
   },
   "files": [
-    "{.,angular,lib}/*.{d.ts,js,map,metadata.json,ngsummary.json}"
+    "{.,angular,lib}/*.{d.ts,js,map,metadata.json}"
   ],
   "author": "",
   "license": "ISC",
