@@ -12,5 +12,8 @@
     "suppressImplicitAnyIndexErrors": true,
     "lib": ["dom", "es2015"]
   },
-  "exclude": ["node_modules", "angular-demo"]
+  "exclude": ["node_modules", "angular-demo"],
+  "angularCompilerOptions": {
+    "strictMetadataEmit": true
+  }
 }

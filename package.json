@@ -3,34 +3,28 @@
   "version": "0.0.2",
   "dependencies": {},
   "devDependencies": {
+    "@angular/cli": "^7.3.9",
     "@angular/common": "~7.1.0",
+    "@angular/compiler": "^7.2.15",
+    "@angular/compiler-cli": "^7.2.15",
     "@angular/core": "~7.1.0",
     "@angular/language-service": "~7.1.0",
     "@angular/platform-browser": "^7.1.4",
     "rxjs": "^6.5.2",
-    "typescript": "^3.5.3"
+    "typescript": "^3.2.4"
   },
   "description": "[Demo](https://joeflateau.github.io/typescript-bottom-sheet/)",
   "main": "sheet.js",
   "scripts": {
     "deploy-demo": "(cd ./angular-demo; npm run ngh)",
-    "build": "rm {.,angular,lib}/*.{d.ts,js,map}; tsc"
+    "build": "rm {.,angular,lib}/*.{d.ts,js,map}; ngc"
   },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/joeflateau/typescript-bottom-sheet.git"
   },
   "files": [
-    "*.scss",
-    "*.d.ts",
-    "*.js",
-    "*.map",
-    "lib/*.d.ts",
-    "lib/*.js",
-    "lib/*.map",
-    "angular/*.d.ts",
-    "angular/*.js",
-    "angular/*.map"
+    "{.,angular,lib}/*.{d.ts,js,map,metadata.json,ngsummary.json}"
   ],
   "author": "",
   "license": "ISC",
