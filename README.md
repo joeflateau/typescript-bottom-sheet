@@ -6,10 +6,18 @@
 
 ### TLDR:
 
+- Install from npm
 - Inject the module into app module
 - Import the scss
 - Set the root view container ref to the app component's view container
 - Open sheets
+
+
+### Install from npm
+
+```
+npm i swipe-bottom-sheet
+```
 
 ### Import the `BottomSheetModule` into your app module
 
