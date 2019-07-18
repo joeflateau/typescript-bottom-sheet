@@ -6,12 +6,15 @@
     "@angular/common": "~7.1.0",
     "@angular/core": "~7.1.0",
     "@angular/language-service": "~7.1.0",
-    "@angular/platform-browser": "^7.1.4"
+    "@angular/platform-browser": "^7.1.4",
+    "rxjs": "^6.5.2",
+    "typescript": "^3.5.3"
   },
   "description": "[Demo](https://joeflateau.github.io/typescript-bottom-sheet/)",
   "main": "sheet.js",
   "scripts": {
-    "deploy-demo": "(cd ./angular-demo; npm run ngh)"
+    "deploy-demo": "(cd ./angular-demo; npm run ngh)",
+    "build": "rm {.,angular,lib}/*.{d.ts,js,map}; tsc"
   },
   "repository": {
     "type": "git",

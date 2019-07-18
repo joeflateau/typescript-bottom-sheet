@@ -1,6 +1,7 @@
 # swipe-bottom-sheet
 
 [Demo](https://joeflateau.github.io/typescript-bottom-sheet/)
+[Stackblitz](https://stackblitz.com/edit/angular-swipe-bottom-sheet)
 
 ## Usage in Angular
 

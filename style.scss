@@ -91,6 +91,9 @@
       &:first-child {
         border-top: 1px solid #eaeaea;
       }
+      &:last-child {
+        margin-bottom: calc(32px + env(safe-area-inset-bottom));
+      }
     }
   }
 
