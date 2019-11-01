@@ -54,7 +54,7 @@ export class BottomSheetProvider {
     context.setValue = value => instance.setValue(value);
 
     return new Promise(resolve => {
-      instance.onClose = value => {
+      instance.onClose = (value: any) => {
         resolve(value);
         instanceRef.destroy();
       };
