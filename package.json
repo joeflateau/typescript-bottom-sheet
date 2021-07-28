@@ -1,8 +1,8 @@
 {
   "name": "swipe-bottom-sheet",
   "version": "0.0.7",
-  "dependencies": {},
   "devDependencies": {
+    "@angular/cdk": "^7.3.7",
     "@angular/cli": "^7.3.9",
     "@angular/common": "~7.1.0",
     "@angular/compiler": "^7.2.15",

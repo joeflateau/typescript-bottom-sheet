@@ -1,6 +1,8 @@
+import { CdkPortalOutletAttachedRef, Portal } from "@angular/cdk/portal";
 import {
   AfterViewInit,
   Component,
+  ComponentRef,
   ContentChild,
   Directive,
   ElementRef,
@@ -9,6 +11,7 @@ import {
   ViewChild,
 } from "@angular/core";
 import { SwipeAwaySheet } from "../sheet";
+import { BottomSheetContext } from "./BottomSheetContext";
 
 @Directive({
   selector: "[sheetFooter]",
@@ -24,17 +27,7 @@ export class SheetDismissDirective {
 
 @Component({
   selector: "bottom-sheet",
-  template: `
-    <div class="sheet" #sheet>
-      <div class="sheet-title" *ngIf="title">{{ title }}</div>
-      <div class="sheet-content">
-        <ng-content></ng-content>
-      </div>
-      <div class="sheet-footer" *ngIf="footer">
-        <ng-container *ngTemplateOutlet="footer"></ng-container>
-      </div>
-    </div>
-  `,
+  templateUrl: "bottom-sheet.component.html",
 })
 export class BottomSheetComponent implements AfterViewInit {
   @ViewChild("sheet") sheet: ElementRef<HTMLElement>;
@@ -46,9 +39,21 @@ export class BottomSheetComponent implements AfterViewInit {
 
   stops: number[];
 
+  contentPortal: Portal<unknown>;
+
   private swipeAwaySheet: SwipeAwaySheet;
 
+  constructor(private context: BottomSheetContext<unknown>) {}
+
   onClose: (value: any) => void;
+
+  attached(ref: CdkPortalOutletAttachedRef) {
+    if (this.context.props && ref instanceof ComponentRef) {
+      Object.entries(this.context.props).forEach(([key, value]) => {
+        ref.instance[key] = value;
+      });
+    }
+  }
 
   ngAfterViewInit(): void {
     this.swipeAwaySheet = new SwipeAwaySheet(this.sheet.nativeElement, {

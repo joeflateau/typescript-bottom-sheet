@@ -1,3 +1,4 @@
+import { ComponentPortal, TemplatePortal } from "@angular/cdk/portal";
 import {
   ComponentFactoryResolver,
   Injectable,
@@ -7,16 +8,11 @@ import {
   ViewContainerRef,
 } from "@angular/core";
 import { BottomSheetComponent } from "./bottom-sheet.component";
+import { BottomSheetContext } from "./BottomSheetContext";
 
-export type BottomSheetContent<T> = TemplateRef<T> | Type<T>;
-
-/** @dynamic */
-@Injectable()
-export class BottomSheetContext<T> {
-  public dismiss: (value?: any) => void;
-  public setValue: (value?: any) => void;
-  constructor(public props: Partial<T>) {}
-}
+export type BottomSheetContent<T> =
+  | TemplateRef<{ $implicit: BottomSheetContext<T> }>
+  | Type<T>;
 
 @Injectable()
 export class BottomSheetProvider {
@@ -44,18 +40,24 @@ export class BottomSheetProvider {
         "rootVcRef is null, this should be set before calling show"
       );
     }
-    const factory = this.resolver.resolveComponentFactory(BottomSheetComponent);
+
     const context = new BottomSheetContext(props);
-    const instanceRef = vcRef.createComponent(
-      factory,
-      undefined,
-      undefined,
-      this.resolveContent(templateRef, context)
-    );
+    const injector = Injector.create({
+      providers: [{ provide: BottomSheetContext, useValue: context }],
+      parent: this.injector,
+    });
+    const factory = this.resolver.resolveComponentFactory(BottomSheetComponent);
+    const instanceRef = vcRef.createComponent(factory, undefined, injector);
 
     const instance = instanceRef.instance;
     instance.title = title;
     instance.stops = stops;
+    instance.contentPortal = this.resolveContent(
+      templateRef,
+      context,
+      vcRef,
+      injector
+    );
 
     context.dismiss = (value) => instance.close(value);
     context.setValue = (value) => instance.setValue(value);
@@ -70,28 +72,16 @@ export class BottomSheetProvider {
 
   private resolveContent<T>(
     content: BottomSheetContent<T>,
-    context: BottomSheetContext<T>
+    context: BottomSheetContext<T>,
+    viewContainerRef: ViewContainerRef,
+    injector: Injector
   ) {
     if (content instanceof TemplateRef) {
-      return [
-        content.createEmbeddedView({
-          $implicit: context,
-        } as any).rootNodes,
-      ];
-    }
-
-    const factory = this.resolver.resolveComponentFactory(content);
-    const componentRef = factory.create(
-      Injector.create({
-        providers: [{ provide: BottomSheetContext, useValue: context }],
-        parent: this.injector,
-      })
-    );
-    if (context.props) {
-      (Object.keys(context.props) as (keyof T)[]).forEach((key) => {
-        componentRef.instance[key] = context.props[key];
+      return new TemplatePortal(content, viewContainerRef, {
+        $implicit: context,
       });
     }
-    return [[componentRef.location.nativeElement]];
+
+    return new ComponentPortal(content, undefined, injector, this.resolver);
   }
 }

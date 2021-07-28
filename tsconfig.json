@@ -10,7 +10,7 @@
     "removeComments": false,
     "noImplicitAny": true,
     "suppressImplicitAnyIndexErrors": true,
-    "lib": ["dom", "es2015"]
+    "lib": ["dom", "ESNext"]
   },
   "exclude": ["node_modules", "angular-demo"],
   "angularCompilerOptions": {

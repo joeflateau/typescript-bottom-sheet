@@ -1,3 +1,4 @@
+import { PortalModule } from "@angular/cdk/portal";
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import {
@@ -15,7 +16,7 @@ const declarations = [
 const providers = [BottomSheetProvider];
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [CommonModule, PortalModule],
   declarations: [...declarations],
   providers: [...providers],
   entryComponents: [BottomSheetComponent],

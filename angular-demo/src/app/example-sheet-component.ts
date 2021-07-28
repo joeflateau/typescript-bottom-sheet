@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { BottomSheetContext } from "../../../angular/bottom-sheet.provider";
+import { BottomSheetContext } from "../../../angular";
 
 @Component({
   selector: "app-example-component",
@@ -30,8 +30,8 @@ import { BottomSheetContext } from "../../../angular/bottom-sheet.provider";
         setValue, don't dismiss (click backdrop to dismiss)
       </li>
     </ul>
-  `
+  `,
 })
 export class ExampleComponent {
-  constructor(public context: BottomSheetContext) {}
+  constructor(public context: BottomSheetContext<unknown>) {}
 }
