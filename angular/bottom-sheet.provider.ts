@@ -29,7 +29,7 @@ export class BottomSheetProvider {
       vcRef = this.rootVcRef,
       props,
     }: {
-      title: string;
+      title?: string;
       stops: number[];
       vcRef?: ViewContainerRef;
       props?: TProps;
