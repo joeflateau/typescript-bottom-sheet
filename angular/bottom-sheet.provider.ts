@@ -1,21 +1,20 @@
 import {
-  TemplateRef,
-  Injectable,
   ComponentFactoryResolver,
+  Injectable,
   Injector,
+  TemplateRef,
+  Type,
   ViewContainerRef,
-  Type
 } from "@angular/core";
-
 import { BottomSheetComponent } from "./bottom-sheet.component";
 
 export type BottomSheetContent<T> = TemplateRef<T> | Type<T>;
 
 @Injectable()
-export class BottomSheetContext {
+export class BottomSheetContext<T> {
   public dismiss: (value?: any) => void;
   public setValue: (value?: any) => void;
-  constructor() {}
+  constructor(public props: Partial<T>) {}
 }
 
 @Injectable()
@@ -25,21 +24,28 @@ export class BottomSheetProvider {
     private injector: Injector,
     private resolver: ComponentFactoryResolver
   ) {}
-  async show<T>(
+  async show<T, TProps>(
     templateRef: BottomSheetContent<T>,
-    options: {
+    {
+      title,
+      stops,
+      vcRef = this.rootVcRef,
+      props,
+    }: {
       title: string;
       stops: number[];
+      vcRef?: ViewContainerRef;
+      props?: TProps;
     }
   ): Promise<any> {
-    if (this.rootVcRef == null) {
+    if (vcRef == null) {
       throw new Error(
         "rootVcRef is null, this should be set before calling show"
       );
     }
     const factory = this.resolver.resolveComponentFactory(BottomSheetComponent);
-    const context = new BottomSheetContext();
-    const instanceRef = this.rootVcRef.createComponent(
+    const context = new BottomSheetContext(props);
+    const instanceRef = vcRef.createComponent(
       factory,
       undefined,
       undefined,
@@ -47,14 +53,14 @@ export class BottomSheetProvider {
     );
 
     const instance = instanceRef.instance;
-    instance.title = options.title;
-    instance.stops = options.stops;
+    instance.title = title;
+    instance.stops = stops;
 
-    context.dismiss = value => instance.close(value);
-    context.setValue = value => instance.setValue(value);
+    context.dismiss = (value) => instance.close(value);
+    context.setValue = (value) => instance.setValue(value);
 
-    return new Promise(resolve => {
-      instance.onClose = value => {
+    return new Promise((resolve) => {
+      instance.onClose = (value) => {
         resolve(value);
         instanceRef.destroy();
       };
@@ -63,22 +69,28 @@ export class BottomSheetProvider {
 
   private resolveContent<T>(
     content: BottomSheetContent<T>,
-    context: BottomSheetContext
+    context: BottomSheetContext<T>
   ) {
     if (content instanceof TemplateRef) {
       return [
         content.createEmbeddedView({
-          $implicit: context
-        } as any).rootNodes
+          $implicit: context,
+        } as any).rootNodes,
       ];
     }
+
     const factory = this.resolver.resolveComponentFactory(content);
     const componentRef = factory.create(
       Injector.create({
         providers: [{ provide: BottomSheetContext, useValue: context }],
-        parent: this.injector
+        parent: this.injector,
       })
     );
+    if (context.props) {
+      (Object.keys(context.props) as (keyof T)[]).forEach((key) => {
+        componentRef.instance[key] = context.props[key];
+      });
+    }
     return [[componentRef.location.nativeElement]];
   }
 }
