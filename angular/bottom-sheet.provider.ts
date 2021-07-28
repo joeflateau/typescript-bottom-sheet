@@ -10,6 +10,7 @@ import { BottomSheetComponent } from "./bottom-sheet.component";
 
 export type BottomSheetContent<T> = TemplateRef<T> | Type<T>;
 
+/** @dynamic */
 @Injectable()
 export class BottomSheetContext<T> {
   public dismiss: (value?: any) => void;
