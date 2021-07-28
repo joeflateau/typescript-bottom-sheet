@@ -1,24 +1,24 @@
+import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
 import {
-  SheetFooterDirective,
   BottomSheetComponent,
-  SheetDismissDirective
+  SheetDismissDirective,
+  SheetFooterDirective,
 } from "./bottom-sheet.component";
 import { BottomSheetProvider } from "./bottom-sheet.provider";
 
 const declarations = [
   SheetFooterDirective,
   BottomSheetComponent,
-  SheetDismissDirective
+  SheetDismissDirective,
 ];
 const providers = [BottomSheetProvider];
 
 @NgModule({
-  imports: [BrowserModule],
+  imports: [CommonModule],
   declarations: [...declarations],
   providers: [...providers],
   entryComponents: [BottomSheetComponent],
-  exports: [...declarations]
+  exports: [...declarations],
 })
 export class BottomSheetModule {}
