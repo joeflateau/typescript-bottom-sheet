@@ -27,7 +27,20 @@ export class SheetDismissDirective {
 
 @Component({
   selector: "bottom-sheet",
-  templateUrl: "./bottom-sheet.component.html",
+  template: `
+    <div class="sheet" #sheet>
+      <div class="sheet-title" *ngIf="title">{{ title }}</div>
+      <div class="sheet-content">
+        <ng-template
+          [cdkPortalOutlet]="contentPortal"
+          (attached)="attached($event)"
+        ></ng-template>
+      </div>
+      <div class="sheet-footer" *ngIf="footer">
+        <ng-container *ngTemplateOutlet="footer"></ng-container>
+      </div>
+    </div>
+  `,
 })
 export class BottomSheetComponent implements AfterViewInit {
   @ViewChild("sheet") sheet: ElementRef<HTMLElement>;
