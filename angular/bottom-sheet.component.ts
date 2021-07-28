@@ -1,22 +1,22 @@
 import {
-  Component,
-  Input,
-  ContentChild,
-  TemplateRef,
-  Directive,
   AfterViewInit,
+  Component,
+  ContentChild,
+  Directive,
+  ElementRef,
+  Input,
+  TemplateRef,
   ViewChild,
-  ElementRef
 } from "@angular/core";
 import { SwipeAwaySheet } from "../sheet";
 
 @Directive({
-  selector: "[sheetFooter]"
+  selector: "[sheetFooter]",
 })
 export class SheetFooterDirective {}
 
 @Directive({
-  selector: "[sheetDismiss]"
+  selector: "[sheetDismiss]",
 })
 export class SheetDismissDirective {
   @Input() sheetDismiss: any;
@@ -34,12 +34,12 @@ export class SheetDismissDirective {
         <ng-container *ngTemplateOutlet="footer"></ng-container>
       </div>
     </div>
-  `
+  `,
 })
 export class BottomSheetComponent implements AfterViewInit {
   @ViewChild("sheet") sheet: ElementRef<HTMLElement>;
 
-  @Input() title: string;
+  @Input() title?: string;
 
   @ContentChild(SheetFooterDirective, { read: TemplateRef })
   footer: TemplateRef<any>;
@@ -53,7 +53,7 @@ export class BottomSheetComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.swipeAwaySheet = new SwipeAwaySheet(this.sheet.nativeElement, {
       stops: this.stops,
-      onClose: value => this.onClose(value)
+      onClose: (value) => this.onClose(value),
     });
     this.swipeAwaySheet.open();
   }
