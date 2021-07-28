@@ -17,10 +17,12 @@ export type BottomSheetContent<T> =
 @Injectable()
 export class BottomSheetProvider {
   rootVcRef: ViewContainerRef;
+
   constructor(
     private injector: Injector,
     private resolver: ComponentFactoryResolver
   ) {}
+
   async show<T, TProps>(
     templateRef: BottomSheetContent<T>,
     {

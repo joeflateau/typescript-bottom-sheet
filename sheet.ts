@@ -1,11 +1,11 @@
-import {
-  touchGestureListener,
-  GestureEvent,
-  getEventY,
-  getEventX
-} from "./lib/touch-gesture-listener";
-import { itemAndParents, isDescendantOf, el } from "./lib/dom";
+import { el, isDescendantOf, itemAndParents } from "./lib/dom";
 import { listen } from "./lib/listen";
+import {
+  GestureEvent,
+  getEventX,
+  getEventY,
+  touchGestureListener,
+} from "./lib/touch-gesture-listener";
 
 export class SwipeAwaySheet {
   private backdropGestureListener: () => void;
@@ -25,7 +25,7 @@ export class SwipeAwaySheet {
     }
   ) {
     const backdrop = (this.backdrop = el("div", {
-      className: "sheet-backdrop"
+      className: "sheet-backdrop",
     }));
 
     this.sheetContent = sheet.querySelector(".sheet-content");
@@ -34,11 +34,15 @@ export class SwipeAwaySheet {
     this.sheet.parentElement.insertBefore(this.container, this.sheet);
     this.container.appendChild(sheet);
 
-    this.backdropGestureListener = touchGestureListener(backdrop, ({ tap }) => {
-      tap(() => {
-        this.close();
-      });
-    });
+    this.backdropGestureListener = touchGestureListener(
+      backdrop,
+      ({ ev, tap }) => {
+        ev.preventDefault();
+        tap(() => {
+          this.close();
+        });
+      }
+    );
 
     this.touchStartListener = touchGestureListener(
       sheet,
@@ -46,7 +50,7 @@ export class SwipeAwaySheet {
         const startTouch = {
           time: Date.now(),
           y: getEventY(startEv),
-          x: getEventX(startEv)
+          x: getEventX(startEv),
         };
         let lastTouch = { time: Date.now(), y: getEventY(startEv) };
         let secondLastTouch: { time: number; y: number } = null;
@@ -56,7 +60,7 @@ export class SwipeAwaySheet {
           const thisTouch = {
             time: Date.now(),
             y: getEventY(moveEv),
-            x: getEventX(moveEv)
+            x: getEventX(moveEv),
           };
 
           const direction = thisTouch.y > startTouch.y ? "down" : "up";
@@ -70,8 +74,8 @@ export class SwipeAwaySheet {
           const shouldAllowScroll = Array.from(
             itemAndParents(startEv.target as HTMLElement)
           )
-            .filter(el => el === sheet || isDescendantOf(el, sheet))
-            .some(el => {
+            .filter((el) => el === sheet || isDescendantOf(el, sheet))
+            .some((el) => {
               if (el === document.body || el === document.documentElement) {
                 return false;
               }
@@ -157,7 +161,7 @@ export class SwipeAwaySheet {
 
     const direction = velocity === 0 ? "none" : velocity > 0 ? "down" : "up";
 
-    const candidateStops = stopsByDistanceFromY.filter(stop =>
+    const candidateStops = stopsByDistanceFromY.filter((stop) =>
       direction === "none" ? true : direction === "up" ? stop > y : stop < y
     );
 
@@ -210,10 +214,12 @@ export class SwipeAwaySheet {
 
   close(time: number = 350, value?: any) {
     time = Math.min(time, 350);
-    this.sheet.style.transition = `${time *
-      0.6}ms cubic-bezier(0.35, 0.15, 0.85, .6) all`;
-    this.backdrop.style.transition = `${time *
-      0.6}ms cubic-bezier(0.35, 0.15, 0.85, .6) opacity`;
+    this.sheet.style.transition = `${
+      time * 0.6
+    }ms cubic-bezier(0.35, 0.15, 0.85, .6) all`;
+    this.backdrop.style.transition = `${
+      time * 0.6
+    }ms cubic-bezier(0.35, 0.15, 0.85, .6) opacity`;
     this.translateSheet(this.sheet.clientHeight);
     this.container.style.pointerEvents = "none";
 
@@ -233,7 +239,7 @@ const transitionEndEvent: string = (() => {
       transition: "transitionend",
       WebkitTransition: "webkitTransitionEnd",
       MozTransition: "transitionend",
-      OTransition: "otransitionend"
+      OTransition: "otransitionend",
     },
     elem = document.createElement("div");
 
