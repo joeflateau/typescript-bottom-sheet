@@ -1,6 +1,6 @@
 {
   "name": "swipe-bottom-sheet",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "dependencies": {},
   "devDependencies": {
     "@angular/cli": "^7.3.9",
