@@ -27,7 +27,7 @@ export class SheetDismissDirective {
 
 @Component({
   selector: "bottom-sheet",
-  templateUrl: "bottom-sheet.component.html",
+  templateUrl: "./bottom-sheet.component.html",
 })
 export class BottomSheetComponent implements AfterViewInit {
   @ViewChild("sheet") sheet: ElementRef<HTMLElement>;

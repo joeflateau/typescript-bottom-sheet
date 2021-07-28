@@ -1,12 +1,10 @@
 <div class="sheet" #sheet>
   <div class="sheet-title" *ngIf="title">{{ title }}</div>
   <div class="sheet-content">
-    BEFORE PORTAL
     <ng-template
       [cdkPortalOutlet]="contentPortal"
       (attached)="attached($event)"
     ></ng-template>
-    AFTER PORTAL
   </div>
   <div class="sheet-footer" *ngIf="footer">
     <ng-container *ngTemplateOutlet="footer"></ng-container>
