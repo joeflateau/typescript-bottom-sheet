@@ -1,4 +1,4 @@
-import { el, isDescendantOf, itemAndParents } from "./lib/dom";
+import { el, isDescendantOf } from "./lib/dom";
 import { listen } from "./lib/listen";
 import {
   GestureEvent,
@@ -71,10 +71,12 @@ export class SwipeAwaySheet {
               ? "vertical"
               : "horizontal";
 
-          const shouldAllowScroll = Array.from(
-            itemAndParents(startEv.target as HTMLElement)
-          )
-            .filter((el) => el === sheet || isDescendantOf(el, sheet))
+          const shouldAllowScroll = Array.from(startEv.composedPath())
+            .filter(
+              (el): el is HTMLElement =>
+                el instanceof HTMLElement &&
+                (el === sheet || isDescendantOf(el, sheet))
+            )
             .some((el) => {
               if (el === document.body || el === document.documentElement) {
                 return false;
