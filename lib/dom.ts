@@ -1,8 +1,8 @@
 export function* itemAndParents(el: HTMLElement) {
   do {
     yield el;
-    el = el.parentElement;
-  } while (el.parentElement);
+    el = el.parentElement || (el as any).host;
+  } while (el.parentElement || (el as any).host);
 }
 
 export function isDescendantOf(el: Element, parentCandidate: Element) {
