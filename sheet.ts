@@ -1,4 +1,4 @@
-import { el, itemAndParents } from "./lib/dom";
+import { el } from "./lib/dom";
 import { listen } from "./lib/listen";
 import {
   GestureEvent,
@@ -56,6 +56,14 @@ export class SwipeAwaySheet {
         let secondLastTouch: { time: number; y: number } = null;
         let axis: "vertical" | "horizontal" = null;
 
+        const startEvPath =
+          (startEv as { path?: Node[] }).path || startEv.composedPath();
+
+        const pathToSheet = startEvPath.slice(
+          0,
+          startEvPath.indexOf(sheet) + 1
+        );
+
         move((moveEv: GestureEvent) => {
           const thisTouch = {
             time: Date.now(),
@@ -70,15 +78,6 @@ export class SwipeAwaySheet {
               Math.abs(thisTouch.x - startTouch.x)
               ? "vertical"
               : "horizontal";
-
-          const startEvPath = Array.from(
-            itemAndParents(startEv.target as HTMLElement)
-          );
-
-          const pathToSheet = startEvPath.slice(
-            0,
-            startEvPath.indexOf(sheet) + 1
-          );
 
           const shouldAllowScroll = Array.from(pathToSheet)
             .filter(
