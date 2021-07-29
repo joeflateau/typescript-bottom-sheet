@@ -30,7 +30,7 @@ export class SheetDismissDirective {
   template: `
     <div class="sheet" #sheet>
       <div class="sheet-title" *ngIf="title">{{ title }}</div>
-      <div class="sheet-content">
+      <div class="sheet-content" [style.height]="height">
         <ng-template
           [cdkPortalOutlet]="contentPortal"
           (attached)="attached($event)"
@@ -49,6 +49,8 @@ export class BottomSheetComponent<TProps> implements AfterViewInit {
 
   @ContentChild(SheetFooterDirective, { read: TemplateRef })
   footer: TemplateRef<any>;
+
+  height?: string;
 
   stops: number[];
 

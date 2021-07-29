@@ -26,11 +26,13 @@ export class BottomSheetProvider {
   async show<TProps>(
     templateRef: BottomSheetContent<TProps>,
     {
+      height,
       title,
       stops,
       vcRef = this.rootVcRef,
       props,
     }: {
+      height?: string | number;
       title?: string;
       stops: number[];
       vcRef?: ViewContainerRef;
@@ -48,26 +50,34 @@ export class BottomSheetProvider {
       providers: [{ provide: BottomSheetContext, useValue: context }],
       parent: this.injector,
     });
-    const factory = this.resolver.resolveComponentFactory(BottomSheetComponent);
-    const instanceRef = vcRef.createComponent(factory, undefined, injector);
-
-    const instance = instanceRef.instance;
-    instance.title = title;
-    instance.stops = stops;
-    instance.contentPortal = this.resolveContent(
+    const sheetWrapperFactory =
+      this.resolver.resolveComponentFactory(BottomSheetComponent);
+    const sheetWrapperInstanceRef = vcRef.createComponent(
+      sheetWrapperFactory,
+      undefined,
+      injector
+    );
+    const sheetContent = this.resolveContent(
       templateRef,
       context,
       vcRef,
       injector
     );
 
-    context.dismiss = (value) => instance.close(value);
-    context.setValue = (value) => instance.setValue(value);
+    const sheetWrapperInstance = sheetWrapperInstanceRef.instance;
+    sheetWrapperInstance.title = title;
+    sheetWrapperInstance.height =
+      typeof height === "number" ? `${height}px` : height;
+    sheetWrapperInstance.stops = stops;
+    sheetWrapperInstance.contentPortal = sheetContent;
+
+    context.dismiss = (value) => sheetWrapperInstance.close(value);
+    context.setValue = (value) => sheetWrapperInstance.setValue(value);
 
     return new Promise((resolve) => {
-      instance.onClose = (value) => {
+      sheetWrapperInstance.onClose = (value) => {
         resolve(value);
-        instanceRef.destroy();
+        sheetWrapperInstanceRef.destroy();
       };
     });
   }
