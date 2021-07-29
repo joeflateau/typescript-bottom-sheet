@@ -10,8 +10,8 @@ import {
 import { BottomSheetComponent } from "./bottom-sheet.component";
 import { BottomSheetContext } from "./BottomSheetContext";
 
-export type BottomSheetContent<TContext, TProps> =
-  | TemplateRef<{ $implicit: BottomSheetContext<TContext> }>
+export type BottomSheetContent<TProps> =
+  | TemplateRef<{ $implicit: BottomSheetContext<Partial<TProps>> }>
   | Type<TProps>;
 
 @Injectable()
@@ -23,8 +23,8 @@ export class BottomSheetProvider {
     private resolver: ComponentFactoryResolver
   ) {}
 
-  async show<TContext, TProps>(
-    templateRef: BottomSheetContent<TContext, TProps>,
+  async show<TProps>(
+    templateRef: BottomSheetContent<TProps>,
     {
       title,
       stops,
@@ -34,12 +34,12 @@ export class BottomSheetProvider {
       title?: string;
       stops: number[];
       vcRef?: ViewContainerRef;
-      props?: TProps;
+      props?: Partial<TProps>;
     }
   ): Promise<any> {
     if (vcRef == null) {
       throw new Error(
-        "rootVcRef is null, this should be set before calling show"
+        "vcRef is null, either set the rootVcRef or pass one with the show method"
       );
     }
 
@@ -72,9 +72,9 @@ export class BottomSheetProvider {
     });
   }
 
-  private resolveContent<TContext, TProps>(
-    content: BottomSheetContent<TContext, TProps>,
-    context: BottomSheetContext<TContext>,
+  private resolveContent<TProps>(
+    content: BottomSheetContent<TProps>,
+    context: BottomSheetContext<TProps>,
     viewContainerRef: ViewContainerRef,
     injector: Injector
   ) {

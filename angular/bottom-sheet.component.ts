@@ -42,7 +42,7 @@ export class SheetDismissDirective {
     </div>
   `,
 })
-export class BottomSheetComponent implements AfterViewInit {
+export class BottomSheetComponent<TProps> implements AfterViewInit {
   @ViewChild("sheet") sheet: ElementRef<HTMLElement>;
 
   @Input() title?: string;
@@ -52,11 +52,11 @@ export class BottomSheetComponent implements AfterViewInit {
 
   stops: number[];
 
-  contentPortal: Portal<unknown>;
+  contentPortal: Portal<TProps>;
 
   private swipeAwaySheet: SwipeAwaySheet;
 
-  constructor(private context: BottomSheetContext<unknown>) {}
+  constructor(private context: BottomSheetContext<TProps>) {}
 
   onClose: (value: any) => void;
 

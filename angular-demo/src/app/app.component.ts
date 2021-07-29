@@ -20,9 +20,7 @@ export class AppComponent {
     bottomSheet.rootVcRef = vcRef;
   }
 
-  async openSheet<TContext, TProps>(
-    content: BottomSheetContent<TContext, TProps>
-  ) {
+  async openSheet<TProps>(content: BottomSheetContent<TProps>) {
     this.lastMessage = "";
     this.lastValue = "";
     const value = await this.bottomSheet.show(content, {
