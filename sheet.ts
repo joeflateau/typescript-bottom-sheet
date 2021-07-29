@@ -71,18 +71,20 @@ export class SwipeAwaySheet {
               ? "vertical"
               : "horizontal";
 
-          const startEvPath = [
-            ...((startEv as any as { path?: Node[] }).path || []),
-            ...(startEv.composedPath && startEv.composedPath()),
-            // swipes in ionic content view on safari have empty composed path but has parents/hosts
-            ...Array.from(itemAndParents(startEv.target as HTMLElement)),
-          ];
+          const startEvPath = Array.from(
+            itemAndParents(startEv.target as HTMLElement)
+          );
 
-          const shouldAllowScroll = Array.from(startEvPath)
+          const pathToSheet = startEvPath.slice(
+            0,
+            startEvPath.indexOf(sheet) + 1
+          );
+
+          const shouldAllowScroll = Array.from(pathToSheet)
             .filter(
               (el): el is HTMLElement =>
                 el instanceof HTMLElement &&
-                (el === sheet || startEvPath.includes(sheet))
+                (el === sheet || pathToSheet.includes(sheet))
             )
             .some((el) => {
               if (el === document.body || el === document.documentElement) {
