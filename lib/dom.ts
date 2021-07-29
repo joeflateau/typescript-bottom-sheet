@@ -5,13 +5,13 @@ export function* itemAndParents(el: HTMLElement) {
   } while (el.parentElement);
 }
 
-export function isDescendantOf(el: HTMLElement, parentCandidate: HTMLElement) {
+export function isDescendantOf(el: Element, parentCandidate: Element) {
   do {
-    el = el.parentElement;
+    el = el.parentElement || (el as any).host; // shadow dom support by crawling up to shadow parent
     if (el === parentCandidate) {
       return true;
     }
-  } while (el.parentElement);
+  } while (el.parentElement || (el as any).host);
   return false;
 }
 
