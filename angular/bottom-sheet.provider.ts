@@ -10,9 +10,9 @@ import {
 import { BottomSheetComponent } from "./bottom-sheet.component";
 import { BottomSheetContext } from "./BottomSheetContext";
 
-export type BottomSheetContent<T> =
-  | TemplateRef<{ $implicit: BottomSheetContext<T> }>
-  | Type<T>;
+export type BottomSheetContent<TContext, TProps> =
+  | TemplateRef<{ $implicit: BottomSheetContext<TContext> }>
+  | Type<TProps>;
 
 @Injectable()
 export class BottomSheetProvider {
@@ -23,8 +23,8 @@ export class BottomSheetProvider {
     private resolver: ComponentFactoryResolver
   ) {}
 
-  async show<T, TProps>(
-    templateRef: BottomSheetContent<T>,
+  async show<TContext, TProps>(
+    templateRef: BottomSheetContent<TContext, TProps>,
     {
       title,
       stops,
@@ -72,9 +72,9 @@ export class BottomSheetProvider {
     });
   }
 
-  private resolveContent<T>(
-    content: BottomSheetContent<T>,
-    context: BottomSheetContext<T>,
+  private resolveContent<TContext, TProps>(
+    content: BottomSheetContent<TContext, TProps>,
+    context: BottomSheetContext<TContext>,
     viewContainerRef: ViewContainerRef,
     injector: Injector
   ) {
