@@ -7,6 +7,7 @@ import {
   Directive,
   ElementRef,
   Input,
+  OnDestroy,
   TemplateRef,
   ViewChild,
 } from "@angular/core";
@@ -46,7 +47,7 @@ export class SheetDismissDirective {
     </div>
   `,
 })
-export class BottomSheetComponent<TProps> implements AfterViewInit {
+export class BottomSheetComponent<TProps> implements AfterViewInit, OnDestroy {
   @ViewChild("sheet") sheet: ElementRef<HTMLElement>;
 
   @Input() title?: string;
@@ -66,7 +67,9 @@ export class BottomSheetComponent<TProps> implements AfterViewInit {
 
   constructor(private context: BottomSheetContext<TProps>) {}
 
-  onClose: (value: any) => void;
+  onInit?: () => void;
+
+  onClose?: (value: any) => void;
 
   attached(ref: CdkPortalOutletAttachedRef) {
     if (this.context.props && ref instanceof ComponentRef) {
@@ -81,11 +84,21 @@ export class BottomSheetComponent<TProps> implements AfterViewInit {
       stops: this.stops,
       onClose: (value) => this.onClose(value),
     });
-    this.swipeAwaySheet.open();
+    if (this.onInit) {
+      this.onInit();
+    }
+  }
+
+  ngOnDestroy() {
+    this.swipeAwaySheet.destroy();
   }
 
   setValue(value: any) {
     this.swipeAwaySheet.setValue(value);
+  }
+
+  open() {
+    this.swipeAwaySheet.open();
   }
 
   close(value: any) {

@@ -14,6 +14,15 @@ export type BottomSheetContent<TProps> =
   | TemplateRef<{ $implicit: BottomSheetContext<Partial<TProps>> }>
   | Type<TProps>;
 
+export interface BottomSheetOptions<TProps> {
+  height?: string | number;
+  maxHeight?: string | number;
+  title?: string;
+  stops: number[];
+  vcRef?: ViewContainerRef;
+  props?: Partial<TProps>;
+}
+
 @Injectable()
 export class BottomSheetProvider {
   rootVcRef: ViewContainerRef;
@@ -25,6 +34,23 @@ export class BottomSheetProvider {
 
   async show<TProps>(
     templateRef: BottomSheetContent<TProps>,
+    options: BottomSheetOptions<TProps>
+  ): Promise<any> {
+    const sheetWrapperInstanceRef = this.create<TProps>(templateRef, options);
+
+    return new Promise((resolve) => {
+      sheetWrapperInstanceRef.instance.onInit = () => {
+        sheetWrapperInstanceRef.instance.open();
+      };
+      sheetWrapperInstanceRef.instance.onClose = (value) => {
+        resolve(value);
+        sheetWrapperInstanceRef.destroy();
+      };
+    });
+  }
+
+  create<TProps>(
+    templateRef: BottomSheetContent<TProps>,
     {
       height,
       maxHeight = `calc(100vh - env(safe-area-inset-top))`,
@@ -32,15 +58,8 @@ export class BottomSheetProvider {
       stops,
       vcRef = this.rootVcRef,
       props,
-    }: {
-      height?: string | number;
-      maxHeight?: string | number;
-      title?: string;
-      stops: number[];
-      vcRef?: ViewContainerRef;
-      props?: Partial<TProps>;
-    }
-  ): Promise<any> {
+    }: BottomSheetOptions<TProps>
+  ) {
     if (vcRef == null) {
       throw new Error(
         "vcRef is null, either set the rootVcRef or pass one with the show method"
@@ -77,13 +96,7 @@ export class BottomSheetProvider {
 
     context.dismiss = (value) => sheetWrapperInstance.close(value);
     context.setValue = (value) => sheetWrapperInstance.setValue(value);
-
-    return new Promise((resolve) => {
-      sheetWrapperInstance.onClose = (value) => {
-        resolve(value);
-        sheetWrapperInstanceRef.destroy();
-      };
-    });
+    return sheetWrapperInstanceRef;
   }
 
   private resolveContent<TProps>(
