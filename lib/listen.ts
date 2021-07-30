@@ -1,18 +1,18 @@
-export function listen(
+export function listen<TEvent extends Event>(
   el: EventTarget,
   eventNames: string[],
-  listener: (ev: Event) => any
+  listener: (ev: TEvent) => any
 ): () => void {
   eventNames.forEach((eventName) => {
     el.addEventListener(
       eventName,
-      listener,
+      listener as (ev: Event) => any,
       supportsPassive ? { passive: false } : false
     );
   });
   return () => {
     eventNames.forEach((eventName) => {
-      el.removeEventListener(eventName, listener);
+      el.removeEventListener(eventName, listener as (ev: Event) => any);
     });
   };
 }

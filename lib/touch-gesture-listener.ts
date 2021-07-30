@@ -29,10 +29,10 @@ export function touchGestureListener(
       startTime = Date.now();
       start({
         ev: startEv,
-        move: listener => (moveListener = listener),
-        end: listener => (endListener = listener),
-        tap: listener => (tapListener = listener),
-        cancel: () => (isCanceled = true)
+        move: (listener) => (moveListener = listener),
+        end: (listener) => (endListener = listener),
+        tap: (listener) => (tapListener = listener),
+        cancel: () => (isCanceled = true),
       });
     }
   );
