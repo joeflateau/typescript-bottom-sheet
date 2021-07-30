@@ -245,7 +245,8 @@ export class SwipeAwaySheet {
     this.translateSheet(this.sheet.clientHeight);
     this.container.style.pointerEvents = "none";
 
-    listen(this.sheet, [transitionEndEvent], () => {
+    const closeListener = listen(this.sheet, [transitionEndEvent], () => {
+      closeListener();
       this.options.onClose(value === undefined ? this.value : value);
       this.container.style.display = "none";
     });
