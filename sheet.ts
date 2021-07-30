@@ -64,6 +64,8 @@ export class SwipeAwaySheet {
           startEvPath.indexOf(sheet) + 1
         );
 
+        let shouldAllowScroll: boolean | null = null;
+
         move((moveEv: GestureEvent) => {
           const thisTouch = {
             time: Date.now(),
@@ -79,39 +81,41 @@ export class SwipeAwaySheet {
               ? "vertical"
               : "horizontal";
 
-          const shouldAllowScroll = Array.from(pathToSheet)
-            .filter(
-              (el): el is HTMLElement =>
-                el instanceof HTMLElement &&
-                (el === sheet || pathToSheet.includes(sheet))
-            )
-            .some((el) => {
-              if (el === document.body || el === document.documentElement) {
+          if (shouldAllowScroll == null) {
+            shouldAllowScroll = Array.from(pathToSheet)
+              .filter(
+                (el): el is HTMLElement =>
+                  el instanceof HTMLElement &&
+                  (el === sheet || pathToSheet.includes(sheet))
+              )
+              .some((el) => {
+                if (el === document.body || el === document.documentElement) {
+                  return false;
+                }
+
+                const style = window.getComputedStyle(el);
+                const overflowY = style.getPropertyValue("overflow-y");
+                const isScrollable =
+                  overflowY === "auto" || overflowY === "scroll";
+                const canScroll = el.scrollHeight > el.offsetHeight;
+
+                if (!canScroll || !isScrollable) {
+                  return false;
+                }
+
+                const height = el.clientHeight;
+                const isAtBottom = el.scrollHeight - el.scrollTop <= height;
+                const isAtTop = el.scrollTop <= 0;
+
+                if (direction === "up" && !isAtBottom) {
+                  return true;
+                }
+                if (direction === "down" && !isAtTop) {
+                  return true;
+                }
                 return false;
-              }
-
-              const style = window.getComputedStyle(el);
-              const overflowY = style.getPropertyValue("overflow-y");
-              const isScrollable =
-                overflowY === "auto" || overflowY === "scroll";
-              const canScroll = el.scrollHeight > el.offsetHeight;
-
-              if (!canScroll || !isScrollable) {
-                return false;
-              }
-
-              const height = el.clientHeight;
-              const isAtBottom = el.scrollHeight - el.scrollTop <= height;
-              const isAtTop = el.scrollTop <= 0;
-
-              if (direction === "up" && !isAtBottom) {
-                return true;
-              }
-              if (direction === "down" && !isAtTop) {
-                return true;
-              }
-              return false;
-            });
+              });
+          }
 
           if (
             (shouldAllowScroll && this.translated === 0) ||
