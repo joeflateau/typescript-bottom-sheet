@@ -33,6 +33,8 @@ export class SwipeAwaySheet {
     this.container.appendChild(backdrop);
     this.sheet.parentElement.insertBefore(this.container, this.sheet);
     this.container.appendChild(sheet);
+    this.container.style.pointerEvents = "none";
+    this.container.style.display = "none";
 
     this.backdropGestureListener = touchGestureListener(
       backdrop,
@@ -203,8 +205,13 @@ export class SwipeAwaySheet {
   }
 
   open() {
+    this.container.style.display = "";
+    this.container.style.pointerEvents = "";
     this.sheetContent.scrollTo(0, 0);
-    const stops = [this.sheet.clientHeight, ...(this.options.stops || [])];
+    const stops = [
+      Math.min(this.sheet.clientHeight, window.innerHeight),
+      ...(this.options.stops || []),
+    ];
     const stop = stops[0] || window.innerHeight;
     this.transitionTo(stop);
   }
@@ -240,6 +247,7 @@ export class SwipeAwaySheet {
 
     listen(this.sheet, [transitionEndEvent], () => {
       this.options.onClose(value === undefined ? this.value : value);
+      this.container.style.display = "none";
     });
   }
 
