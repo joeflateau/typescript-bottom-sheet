@@ -25,7 +25,7 @@ export interface BottomSheetOptions<TProps> {
 
 @Injectable()
 export class BottomSheetProvider {
-  rootVcRef: ViewContainerRef;
+  rootVcRef?: ViewContainerRef;
 
   constructor(
     private injector: Injector,

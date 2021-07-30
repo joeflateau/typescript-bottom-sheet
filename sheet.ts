@@ -28,10 +28,10 @@ export class SwipeAwaySheet {
       className: "sheet-backdrop",
     }));
 
-    this.sheetContent = sheet.querySelector(".sheet-content");
+    this.sheetContent = sheet.querySelector(".sheet-content")! as HTMLElement;
     this.container = el("div", { className: "sheet-container" });
     this.container.appendChild(backdrop);
-    this.sheet.parentElement.insertBefore(this.container, this.sheet);
+    this.sheet.parentElement!.insertBefore(this.container, this.sheet);
     this.container.appendChild(sheet);
     this.container.style.pointerEvents = "none";
     this.container.style.display = "none";
@@ -55,8 +55,8 @@ export class SwipeAwaySheet {
           x: getEventX(startEv),
         };
         let lastTouch = { time: Date.now(), y: getEventY(startEv) };
-        let secondLastTouch: { time: number; y: number } = null;
-        let axis: "vertical" | "horizontal" = null;
+        let secondLastTouch: { time: number; y: number } | null = null;
+        let axis: "vertical" | "horizontal" | null = null;
 
         const startEvPath =
           (startEv as { path?: Node[] }).path || startEv.composedPath();

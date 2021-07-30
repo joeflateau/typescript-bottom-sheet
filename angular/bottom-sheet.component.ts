@@ -48,22 +48,22 @@ export class SheetDismissDirective {
   `,
 })
 export class BottomSheetComponent<TProps> implements AfterViewInit, OnDestroy {
-  @ViewChild("sheet") sheet: ElementRef<HTMLElement>;
+  @ViewChild("sheet") sheet?: ElementRef<HTMLElement>;
 
   @Input() title?: string;
 
   @ContentChild(SheetFooterDirective, { read: TemplateRef })
-  footer: TemplateRef<any>;
+  footer?: TemplateRef<any>;
 
   height?: string;
 
   maxHeight?: string;
 
-  stops: number[];
+  stops: number[] = [];
 
-  contentPortal: Portal<TProps>;
+  contentPortal?: Portal<TProps>;
 
-  private swipeAwaySheet: SwipeAwaySheet;
+  private swipeAwaySheet?: SwipeAwaySheet;
 
   constructor(private context: BottomSheetContext<TProps>) {}
 
@@ -80,9 +80,13 @@ export class BottomSheetComponent<TProps> implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.swipeAwaySheet = new SwipeAwaySheet(this.sheet.nativeElement, {
+    this.swipeAwaySheet = new SwipeAwaySheet(this.sheet!.nativeElement, {
       stops: this.stops,
-      onClose: (value) => this.onClose(value),
+      onClose: (value) => {
+        if (this.onClose) {
+          this.onClose(value);
+        }
+      },
     });
     if (this.onInit) {
       this.onInit();
@@ -90,18 +94,18 @@ export class BottomSheetComponent<TProps> implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.swipeAwaySheet.destroy();
+    this.swipeAwaySheet!.destroy();
   }
 
   setValue(value: any) {
-    this.swipeAwaySheet.setValue(value);
+    this.swipeAwaySheet!.setValue(value);
   }
 
   open() {
-    this.swipeAwaySheet.open();
+    this.swipeAwaySheet!.open();
   }
 
   close(value: any) {
-    this.swipeAwaySheet.close(undefined, value);
+    this.swipeAwaySheet!.close(undefined, value);
   }
 }
