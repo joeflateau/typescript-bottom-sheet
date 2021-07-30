@@ -27,12 +27,14 @@ export class BottomSheetProvider {
     templateRef: BottomSheetContent<TProps>,
     {
       height,
+      maxHeight = `calc(100vh - env(safe-area-inset-top))`,
       title,
       stops,
       vcRef = this.rootVcRef,
       props,
     }: {
       height?: string | number;
+      maxHeight?: string | number;
       title?: string;
       stops: number[];
       vcRef?: ViewContainerRef;
@@ -68,6 +70,8 @@ export class BottomSheetProvider {
     sheetWrapperInstance.title = title;
     sheetWrapperInstance.height =
       typeof height === "number" ? `${height}px` : height;
+    sheetWrapperInstance.maxHeight =
+      typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight;
     sheetWrapperInstance.stops = stops;
     sheetWrapperInstance.contentPortal = sheetContent;
 
