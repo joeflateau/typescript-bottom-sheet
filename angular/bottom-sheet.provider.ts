@@ -66,18 +66,28 @@ export class BottomSheetProvider {
       );
     }
 
-    const context = new BottomSheetContext(props);
+    let sheetWrapperInstance: BottomSheetComponent<unknown>;
+
+    const context = new BottomSheetContext(
+      (value) => sheetWrapperInstance.close(value),
+      (value) => sheetWrapperInstance.setValue(value),
+      props
+    );
+
     const injector = Injector.create({
       providers: [{ provide: BottomSheetContext, useValue: context }],
       parent: this.injector,
     });
+
     const sheetWrapperFactory =
       this.resolver.resolveComponentFactory(BottomSheetComponent);
+
     const sheetWrapperInstanceRef = vcRef.createComponent(
       sheetWrapperFactory,
       undefined,
       injector
     );
+
     const sheetContent = this.resolveContent(
       templateRef,
       context,
@@ -85,7 +95,7 @@ export class BottomSheetProvider {
       injector
     );
 
-    const sheetWrapperInstance = sheetWrapperInstanceRef.instance;
+    sheetWrapperInstance = sheetWrapperInstanceRef.instance;
     sheetWrapperInstance.title = title;
     sheetWrapperInstance.height =
       typeof height === "number" ? `${height}px` : height;
@@ -94,8 +104,6 @@ export class BottomSheetProvider {
     sheetWrapperInstance.stops = stops;
     sheetWrapperInstance.contentPortal = sheetContent;
 
-    context.dismiss = (value) => sheetWrapperInstance.close(value);
-    context.setValue = (value) => sheetWrapperInstance.setValue(value);
     return sheetWrapperInstanceRef;
   }
 
