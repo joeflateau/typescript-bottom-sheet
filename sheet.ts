@@ -7,6 +7,10 @@ import {
   touchGestureListener,
 } from "./lib/touch-gesture-listener";
 
+export interface SwipeAwaySheetContext {
+  locked: boolean;
+}
+
 export class SwipeAwaySheet {
   private backdropGestureListener: () => void;
   private touchStartListener: () => void;
@@ -19,6 +23,7 @@ export class SwipeAwaySheet {
   constructor(
     private sheet: HTMLElement,
     private options: {
+      context?: SwipeAwaySheetContext;
       attachTo?: HTMLElement;
       stops: number[];
       onClose: (value: any) => void;
@@ -40,6 +45,9 @@ export class SwipeAwaySheet {
       backdrop,
       ({ ev, tap }) => {
         ev.preventDefault();
+        if (this.options.context?.locked) {
+          return;
+        }
         tap(() => {
           this.close();
         });
@@ -49,6 +57,10 @@ export class SwipeAwaySheet {
     this.touchStartListener = touchGestureListener(
       sheet,
       ({ ev: startEv, move, end, cancel }) => {
+        if (this.options.context?.locked) {
+          return;
+        }
+
         const startTouch = {
           time: Date.now(),
           y: getEventY(startEv),
@@ -235,6 +247,9 @@ export class SwipeAwaySheet {
   }
 
   close(time: number = 350, value?: any) {
+    if (this.options.context?.locked) {
+      return;
+    }
     time = Math.min(time, 350);
     this.sheet.style.transition = `${
       time * 0.6

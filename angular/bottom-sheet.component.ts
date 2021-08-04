@@ -81,6 +81,7 @@ export class BottomSheetComponent<TProps> implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.swipeAwaySheet = new SwipeAwaySheet(this.sheet!.nativeElement, {
+      context: this.context,
       stops: this.stops,
       onClose: (value) => {
         if (this.onClose) {
