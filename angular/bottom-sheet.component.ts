@@ -65,7 +65,7 @@ export class BottomSheetComponent<TProps> implements AfterViewInit, OnDestroy {
 
   private swipeAwaySheet?: SwipeAwaySheet;
 
-  constructor(private context: BottomSheetContext<TProps>) {}
+  constructor(public readonly context: BottomSheetContext<TProps>) {}
 
   onInit?: () => void;
 
