@@ -43,9 +43,10 @@ export class SwipeAwaySheet {
 
     this.backdropGestureListener = touchGestureListener(
       backdrop,
-      ({ ev, tap }) => {
+      ({ ev, tap, cancel }) => {
         ev.preventDefault();
         if (this.options.context?.locked) {
+          cancel();
           return;
         }
         tap(() => {
@@ -58,6 +59,7 @@ export class SwipeAwaySheet {
       sheet,
       ({ ev: startEv, move, end, cancel }) => {
         if (this.options.context?.locked) {
+          cancel();
           return;
         }
 
