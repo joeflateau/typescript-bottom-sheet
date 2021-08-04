@@ -2,16 +2,17 @@
   "name": "swipe-bottom-sheet",
   "version": "0.1.0",
   "devDependencies": {
-    "@angular/cdk": "^9.2.4",
-    "@angular/cli": "^9.1.15",
-    "@angular/common": "~9.1.13",
-    "@angular/compiler": "^9.1.13",
-    "@angular/compiler-cli": "^9.1.13",
-    "@angular/core": "~9.1.13",
-    "@angular/language-service": "~9.1.13",
-    "@angular/platform-browser": "^9.1.13",
+    "@angular/cdk": "^12.1.4",
+    "@angular/cli": "^12.1.4",
+    "@angular/common": "~12.1.4",
+    "@angular/compiler": "^12.1.4",
+    "@angular/compiler-cli": "^12.1.4",
+    "@angular/core": "~12.1.4",
+    "@angular/language-service": "~12.1.4",
+    "@angular/platform-browser": "^12.1.4",
     "rxjs": "^6.6.7",
-    "typescript": "^3.8.3"
+    "typescript": "^4.3.5",
+    "zone.js": "^0.11.4"
   },
   "description": "[Demo](https://joeflateau.github.io/typescript-bottom-sheet/)",
   "main": "sheet.js",
@@ -35,8 +36,5 @@
   "bugs": {
     "url": "https://github.com/joeflateau/typescript-bottom-sheet/issues"
   },
-  "homepage": "https://github.com/joeflateau/typescript-bottom-sheet#readme",
-  "dependencies": {
-    "zone.js": "^0.10.3"
-  }
+  "homepage": "https://github.com/joeflateau/typescript-bottom-sheet#readme"
 }
