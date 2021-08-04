@@ -1,6 +1,6 @@
 {
   "name": "swipe-bottom-sheet",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "devDependencies": {
     "@angular/cdk": "^12.1.4",
     "@angular/cli": "^12.1.4",
@@ -20,8 +20,7 @@
     "deploy-demo": "(cd ./angular-demo; npm run ngh)",
     "build": "rm {.,angular,lib}/*.{d.ts,js,map,metadata.json,ngsummary.json}; ngc",
     "prepare": "npm run build",
-    "ngcc": "ngcc --properties es2015 module browser main --first-only --create-ivy-entry-points",
-    "postinstall": "npm run ngcc"
+    "ngcc": "ngcc --properties es2015 module browser main --first-only --create-ivy-entry-points"
   },
   "repository": {
     "type": "git",
