@@ -218,6 +218,12 @@ export class SwipeAwaySheet {
     );
   }
 
+  onIonBackButton = (ev: Event) => {
+    (ev as IonBackButtonEvent).detail.register(100, () => {
+      this.close();
+    });
+  };
+
   open() {
     this.container.style.display = "";
     this.container.style.pointerEvents = "";
@@ -228,6 +234,7 @@ export class SwipeAwaySheet {
     ];
     const stop = stops[0] || window.innerHeight;
     this.transitionTo(stop);
+    document.addEventListener("ionBackButton", this.onIonBackButton);
   }
 
   transitionTo(overhangHeight: number) {
@@ -261,6 +268,7 @@ export class SwipeAwaySheet {
     }ms cubic-bezier(0.35, 0.15, 0.85, .6) opacity`;
     this.translateSheet(this.sheet.clientHeight);
     this.container.style.pointerEvents = "none";
+    document.removeEventListener("ionBackButton", this.onIonBackButton);
 
     const closeListener = listen(this.sheet, [transitionEndEvent], () => {
       closeListener();
@@ -272,6 +280,7 @@ export class SwipeAwaySheet {
   destroy() {
     this.touchStartListener();
     this.backdropGestureListener();
+    document.removeEventListener("ionBackButton", this.onIonBackButton);
   }
 }
 
@@ -290,3 +299,12 @@ const transitionEndEvent: string = (() => {
     }
   }
 })();
+
+interface IonBackButtonEvent extends Event {
+  detail: {
+    register: (
+      priority: number,
+      handler: (processNext: () => void) => void
+    ) => void;
+  };
+}
