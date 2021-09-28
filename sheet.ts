@@ -27,6 +27,7 @@ export class SwipeAwaySheet {
       attachTo?: HTMLElement;
       stops: number[];
       onClose: (value: any) => void;
+      onOpen: () => void;
     }
   ) {
     const backdrop = (this.backdrop = el("div", {
@@ -235,6 +236,7 @@ export class SwipeAwaySheet {
     const stop = stops[0] || window.innerHeight;
     this.transitionTo(stop);
     document.addEventListener("ionBackButton", this.onIonBackButton);
+    this.options.onOpen();
   }
 
   transitionTo(overhangHeight: number) {

@@ -83,10 +83,14 @@ export class BottomSheetComponent<TProps> implements AfterViewInit, OnDestroy {
     this.swipeAwaySheet = new SwipeAwaySheet(this.sheet!.nativeElement, {
       context: this.context,
       stops: this.stops,
+      onOpen: () => {
+        this.context.stateChanged.next((this.context.state = "open"));
+      },
       onClose: (value) => {
         if (this.onClose) {
           this.onClose(value);
         }
+        this.context.stateChanged.next((this.context.state = "closed"));
       },
     });
     if (this.onInit) {
