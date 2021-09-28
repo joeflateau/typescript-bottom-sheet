@@ -4,3 +4,4 @@ node_modules/
 *.map
 *.metadata.json
 *.ngsummary.json
+.DS_Store

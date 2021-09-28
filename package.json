@@ -10,6 +10,7 @@
     "@angular/core": "~12.1.4",
     "@angular/language-service": "~12.1.4",
     "@angular/platform-browser": "^12.1.4",
+    "release-it": "^14.11.6",
     "rxjs": "^6.6.7",
     "typescript": "^4.3.5",
     "zone.js": "^0.11.4"
@@ -20,7 +21,8 @@
     "deploy-demo": "(cd ./angular-demo; npm run ngh)",
     "build": "rm {.,angular,lib}/*.{d.ts,js,map,metadata.json,ngsummary.json}; ngc",
     "prepare": "npm run build",
-    "ngcc": "ngcc --properties es2015 module browser main --first-only --create-ivy-entry-points"
+    "ngcc": "ngcc --properties es2015 module browser main --first-only --create-ivy-entry-points",
+    "release": "release-it"
   },
   "repository": {
     "type": "git",
