@@ -1,10 +1,12 @@
 export class FocusTrap {
-  private previouslyActiveElement: HTMLElement | null = null;
+  private restoreFocusToElement: HTMLElement | null = null;
 
   constructor(private container: HTMLElement) {}
 
-  private onFocusOut = () => {
-    this.focusFirstFocusable();
+  private onTrappedFocusIn = (ev: FocusEvent) => {
+    if (!this.container.contains(ev.target as HTMLElement)) {
+      this.focusFirstFocusable();
+    }
   };
 
   private focusFirstFocusable() {
@@ -12,13 +14,13 @@ export class FocusTrap {
   }
 
   activate() {
-    this.previouslyActiveElement = document.activeElement as HTMLElement | null;
+    this.restoreFocusToElement = document.activeElement as HTMLElement | null;
     this.focusFirstFocusable();
-    this.container.addEventListener("focusout", this.onFocusOut);
+    document.addEventListener("focusin", this.onTrappedFocusIn);
   }
 
   deactivate() {
-    this.container.removeEventListener("focusout", this.onFocusOut);
-    this.previouslyActiveElement?.focus();
+    document.removeEventListener("focusin", this.onTrappedFocusIn);
+    this.restoreFocusToElement?.focus();
   }
 }
