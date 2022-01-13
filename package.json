@@ -37,5 +37,8 @@
   "bugs": {
     "url": "https://github.com/joeflateau/typescript-bottom-sheet/issues"
   },
-  "homepage": "https://github.com/joeflateau/typescript-bottom-sheet#readme"
+  "homepage": "https://github.com/joeflateau/typescript-bottom-sheet#readme",
+  "dependencies": {
+    "focus-trap": "^6.7.2"
+  }
 }
