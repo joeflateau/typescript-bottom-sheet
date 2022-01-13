@@ -1,4 +1,5 @@
 import { el } from "./lib/dom";
+import { FocusTrap } from "./lib/FocusTrap";
 import { listen } from "./lib/listen";
 import {
   GestureEvent,
@@ -19,6 +20,7 @@ export class SwipeAwaySheet {
   sheetContent: HTMLElement;
   container: HTMLElement;
   value: any;
+  focusTrap: FocusTrap;
 
   constructor(
     private sheet: HTMLElement,
@@ -41,6 +43,7 @@ export class SwipeAwaySheet {
     this.container.appendChild(sheet);
     this.container.style.pointerEvents = "none";
     this.container.style.display = "none";
+    this.focusTrap = new FocusTrap(this.container);
 
     this.backdropGestureListener = touchGestureListener(
       backdrop,
@@ -236,7 +239,7 @@ export class SwipeAwaySheet {
     const stop = stops[0] || window.innerHeight;
     this.transitionTo(stop);
     document.addEventListener("ionBackButton", this.onIonBackButton);
-    this.container.focus();
+    this.focusTrap.activate();
     this.options.onOpen();
   }
 
@@ -272,7 +275,7 @@ export class SwipeAwaySheet {
     this.translateSheet(this.sheet.clientHeight);
     this.container.style.pointerEvents = "none";
     document.removeEventListener("ionBackButton", this.onIonBackButton);
-    this.container.blur();
+    this.focusTrap.deactivate();
     const closeListener = listen(this.sheet, [transitionEndEvent], () => {
       closeListener();
       this.options.onClose(value === undefined ? this.value : value);
