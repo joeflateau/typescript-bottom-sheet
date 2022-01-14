@@ -35,6 +35,12 @@ export class FocusTrap {
       this.mostRecentlyFocusedElement = focusableElements[0];
     }
 
+    // force the browser to let us re-focus a previously focused element
+    // necessary to focus ion-button
+    if (!this.mostRecentlyFocusedElement.hasAttribute("tabindex")) {
+      this.mostRecentlyFocusedElement.setAttribute("tabindex", "0");
+    }
+
     this.mostRecentlyFocusedElement?.focus();
   }
 
