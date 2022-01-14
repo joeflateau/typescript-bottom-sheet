@@ -1,7 +1,7 @@
 export class FocusTrap {
   private static currentTrap: FocusTrap | null = null;
 
-  private restoreFocusOutside: FocusTrap | HTMLElement | null = null;
+  private restoreFocusTo: FocusTrap | HTMLElement | null = null;
   private mostRecentlyFocusedElement: HTMLElement | null = null;
 
   constructor(private container: HTMLElement) {}
@@ -12,45 +12,51 @@ export class FocusTrap {
         "this event handler should not be registered when there is no current trap"
       );
     }
-    if (!FocusTrap.currentTrap.container.contains(ev.target as HTMLElement)) {
-      FocusTrap.currentTrap.focusFirstFocusable();
+    const targetEl = ev.target as HTMLElement;
+    if (FocusTrap.currentTrap.container.contains(targetEl)) {
+      FocusTrap.currentTrap.mostRecentlyFocusedElement = targetEl;
+    } else {
+      FocusTrap.currentTrap.focus();
     }
   };
 
-  private focusFirstFocusable() {
-    const focusable = (
-      Array.from(
-        this.container.querySelectorAll(
-          'a[href], button, input, textarea, select, details,[tabindex]:not([tabindex="-1"])'
-        )
-      ) as HTMLElement[]
-    ).filter(
-      (el) => !el.hasAttribute("disabled") && !el.getAttribute("aria-hidden")
-    );
-    focusable[0]?.focus();
+  private focus() {
+    if (this.mostRecentlyFocusedElement == null) {
+      const focusableElements = (
+        Array.from(
+          this.container.querySelectorAll(
+            'a[href], button, input, textarea, select, details,[tabindex]:not([tabindex="-1"])'
+          )
+        ) as HTMLElement[]
+      ).filter(
+        (el) => !el.hasAttribute("disabled") && !el.getAttribute("aria-hidden")
+      );
+
+      this.mostRecentlyFocusedElement = focusableElements[0];
+    }
+
+    this.mostRecentlyFocusedElement?.focus();
   }
 
   activate() {
-    const activeElement = document.activeElement as HTMLElement | null;
     if (FocusTrap.currentTrap == null) {
       document.addEventListener("focusin", FocusTrap.onTrappedFocusIn);
-      this.restoreFocusOutside = activeElement;
+      this.restoreFocusTo = document.activeElement as HTMLElement | null;
     } else {
-      FocusTrap.currentTrap.mostRecentlyFocusedElement = activeElement;
-      this.restoreFocusOutside = FocusTrap.currentTrap;
+      this.restoreFocusTo = FocusTrap.currentTrap;
     }
     FocusTrap.currentTrap = this;
-    this.focusFirstFocusable();
+    this.focus();
   }
 
   deactivate() {
-    if (this.restoreFocusOutside instanceof FocusTrap) {
-      FocusTrap.currentTrap = this.restoreFocusOutside;
-      this.restoreFocusOutside.mostRecentlyFocusedElement?.focus();
+    if (this.restoreFocusTo instanceof FocusTrap) {
+      FocusTrap.currentTrap = this.restoreFocusTo;
+      this.restoreFocusTo.focus();
     } else {
       document.removeEventListener("focusin", FocusTrap.onTrappedFocusIn);
       FocusTrap.currentTrap = null;
-      this.restoreFocusOutside?.focus();
+      this.restoreFocusTo?.focus();
     }
   }
 }
