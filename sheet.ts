@@ -237,13 +237,14 @@ export class SwipeAwaySheet {
       ...(this.options.stops || []),
     ];
     const stop = stops[0] || window.innerHeight;
-    this.transitionTo(stop);
     document.addEventListener("ionBackButton", this.onIonBackButton);
-    this.focusTrap.activate();
+    this.transitionTo(stop, () => {
+      this.focusTrap.activate();
+    });
     this.options.onOpen();
   }
 
-  transitionTo(overhangHeight: number) {
+  transitionTo(overhangHeight: number, callback?: () => void) {
     if (overhangHeight === 0) {
       return this.close();
     }
@@ -255,6 +256,10 @@ export class SwipeAwaySheet {
     this.backdrop.style.transition = `350ms cubic-bezier(0.175, 0.885, 0.32, .975) opacity`;
     this.translateSheet(translateHeight);
     this.container.style.pointerEvents = "auto";
+    const onTransitionEnd = () => {
+      this.sheet.removeEventListener("transitionend", onTransitionEnd);
+    };
+    this.sheet.addEventListener("transitionend", onTransitionEnd);
   }
 
   setValue(value: any) {
